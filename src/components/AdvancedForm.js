@@ -1,20 +1,25 @@
 import React from "react";
 
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import CustomInput from "./CustomInput";
 import { advancedSchema } from "../schemas";
 import CustomSelect from "./CustomSelect";
-
+import CustomCheckBox from "./CustomCheckBox";
+const onSubmit = (values, actions) => {
+  console.log("hello", actions);
+};
 const AdvancedForm = () => (
   <div>
     <h1>My Form</h1>
 
     <Formik
-      initialValues={{ username: "jared", jobType: "", acceptedTo: "" }}
+      initialValues={{ username: "jared", jobType: "", acceptedTos: false }}
       validationSchema={advancedSchema}
+      onSubmit={onSubmit}
     >
-      {(props) => (
-        <Form onSubmit={props.handleSubmit}>
+      {({ isSubmiting }) => (
+        <Form>
+          {console.log("hello", isSubmiting)}
           <CustomInput
             label="Username"
             name="username"
@@ -32,8 +37,10 @@ const AdvancedForm = () => (
             <option value="manager">Product Manager</option>
             <option value="other">Other</option>
           </CustomSelect>
-
-          <button type="submit">Submit</button>
+          <CustomCheckBox type="checkbox" name="acceptedTos" />
+          <button disabled={isSubmiting} type="submit">
+            Submit
+          </button>
         </Form>
       )}
     </Formik>
